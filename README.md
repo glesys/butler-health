@@ -90,7 +90,7 @@ Repository::customApplicationData(fn () => [
 // example response with custom application data
 {
     "application": {
-        "name": "application name",
+        "name": "custom name",
         "timezone": "Europe/Stockholm",
         "php": "8.0.10",
         "laravel": "8.60.0",
