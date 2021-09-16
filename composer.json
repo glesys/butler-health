@@ -1,0 +1,38 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Butler\\Health\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Butler\\Health\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "description": "Glesys Butler Health package.",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Butler\\Health\\ServiceProvider"
+            ]
+        }
+    },
+    "license": "MIT",
+    "name": "glesys/butler-health",
+    "require": {
+        "php": "^8.0",
+        "illuminate/contracts": "^8.0",
+        "illuminate/database": "^8.0",
+        "illuminate/routing": "^8.0",
+        "illuminate/support": "^8.0"
+    },
+    "require-dev": {
+        "graham-campbell/testbench": "^5.5",
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3.6"
+    },
+    "type": "library"
+}
