@@ -28,13 +28,27 @@ class FailedJobsCheckTest extends AbstractTestCase
         $this->assertEquals(0, $result->value());
     }
 
-    public function test_critical_when_failed_jobs_exist()
+    public function test_critical_when_multiple_failed_jobs_exist()
+    {
+        DB::table(config('queue.failed.table'))->insert([
+            ['id' => 1],
+            ['id' => 2],
+        ]);
+
+        $result = (new FailedJobs())->run();
+
+        $this->assertEquals('2 failed jobs.', $result->message);
+        $this->assertEquals(Result::CRITICAL, $result->state);
+        $this->assertEquals(2, $result->value());
+    }
+
+    public function test_critical_when_one_failed_job_exist()
     {
         DB::table(config('queue.failed.table'))->insert(['id' => 1]);
 
         $result = (new FailedJobs())->run();
 
-        $this->assertEquals('1 failed jobs.', $result->message);
+        $this->assertEquals('One failed job.', $result->message);
         $this->assertEquals(Result::CRITICAL, $result->state);
         $this->assertEquals(1, $result->value());
     }

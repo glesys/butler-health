@@ -13,7 +13,8 @@ class Database extends Check
 
     public function run(): Result
     {
-        $connected = $checked = 0;
+        $connectedDatabases = 0;
+        $checkedDatabases = 0;
         $connectionKeys = collect(config('database.connections'))->keys();
 
         if ($connectionKeys->isEmpty()) {
@@ -21,23 +22,31 @@ class Database extends Check
         }
 
         foreach ($connectionKeys->all() as $connection) {
-            ++$checked;
+            ++$checkedDatabases;
 
             try {
                 if (DB::connection($connection)->getPdo()) {
-                    ++$connected;
+                    ++$connectedDatabases;
                 }
             } catch (\Exception) {
                 //
             }
         }
 
-        if ($connected === $checked) {
-            $result = Result::ok('Connected to all databases.');
+        if ($connectedDatabases === $checkedDatabases) {
+            $message = $checkedDatabases > 1
+                ? "Connected to all $checkedDatabases databases."
+                : 'Connected to the database.';
+
+            $result = Result::ok($message);
         } else {
-            $result = Result::critical("Connected to {$connected} of {$checked} databases.");
+            $message = $checkedDatabases > 1
+                ? "Connected to $connectedDatabases of $checkedDatabases databases."
+                : 'Not connected to the database.';
+
+            $result = Result::critical($message);
         }
 
-        return tap($result)->value($connected / $checked);
+        return tap($result)->value($connectedDatabases / $checkedDatabases);
     }
 }

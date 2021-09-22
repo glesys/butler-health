@@ -19,7 +19,7 @@ class DatabaseCheckTest extends AbstractTestCase
         $this->assertNull($result->value());
     }
 
-    public function test_ok_when_database_connection_succeeds()
+    public function test_ok_when_single_database_connection_succeeds()
     {
         config([
             'database.connections' => [
@@ -32,19 +32,60 @@ class DatabaseCheckTest extends AbstractTestCase
 
         $result = (new Database())->run();
 
-        $this->assertEquals('Connected to all databases.', $result->message);
+        $this->assertEquals('Connected to the database.', $result->message);
         $this->assertEquals(Result::OK, $result->state);
         $this->assertEquals(1, $result->value());
     }
 
-    public function test_critical_when_no_database_connection_fails()
+    public function test_ok_when_multiple_database_connections_succeeds()
+    {
+        config([
+            'database.connections' => [
+                'testing1' => [
+                    'driver' => 'sqlite',
+                    'database' => ':memory:',
+                ],
+                'testing2' => [
+                    'driver' => 'sqlite',
+                    'database' => ':memory:',
+                ],
+            ]
+        ]);
+
+        $result = (new Database())->run();
+
+        $this->assertEquals('Connected to all 2 databases.', $result->message);
+        $this->assertEquals(Result::OK, $result->state);
+        $this->assertEquals(1, $result->value());
+    }
+
+    public function test_critical_when_one_database_connection_fails()
     {
         config(['database.connections' => ['foobar']]);
 
         $result = (new Database())->run();
 
-        $this->assertEquals('Connected to 0 of 1 databases.', $result->message);
+        $this->assertEquals('Not connected to the database.', $result->message);
         $this->assertEquals(Result::CRITICAL, $result->state);
         $this->assertEquals(0, $result->value());
+    }
+
+    public function test_critical_when_one_of_multiple_database_connections_fails()
+    {
+        config([
+            'database.connections' => [
+                'foobar',
+                'testing' => [
+                    'driver' => 'sqlite',
+                    'database' => ':memory:',
+                ]
+            ]
+        ]);
+
+        $result = (new Database())->run();
+
+        $this->assertEquals('Connected to 1 of 2 databases.', $result->message);
+        $this->assertEquals(Result::CRITICAL, $result->state);
+        $this->assertEquals(0.5, $result->value());
     }
 }
