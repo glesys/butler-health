@@ -47,6 +47,7 @@ class Repository
         return collect(config('butler.health.checks', []))
             ->map(fn ($class) => $this->checkToArray(app($class)))
             ->sortByDesc(fn ($check) => $check['result']['order'])
+            ->values()
             ->toArray();
     }
 
