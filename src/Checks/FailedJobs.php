@@ -20,13 +20,15 @@ class FailedJobs extends Check
         $tableName = config('queue.failed.table');
 
         try {
-            throw_unless(Schema::connection($connection)->hasTable($tableName), Exception::class);
+            throw_unless(Schema::connection($connection)->hasTable($tableName));
         } catch (Exception) {
             return Result::unknown("Table {$tableName} not found.");
         }
 
         if ($count = DB::connection($connection)->table($tableName)->count()) {
-            return tap(Result::critical("{$count} failed jobs."))->value($count);
+            $message = $count > 1 ? "$count failed jobs." : 'One failed job.';
+
+            return tap(Result::critical($message))->value($count);
         }
 
         return tap(Result::ok('No failed jobs.'))->value(0);
