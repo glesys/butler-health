@@ -33,6 +33,7 @@ The endpoint will return data in JSON.
             "slug": "database",
             "group": "core",
             "description": "Check all database connections.",
+            "runtimeInMilliseconds": 10,
             "result": {
                 "value": 1,
                 "message": "Connected to all databases.",
