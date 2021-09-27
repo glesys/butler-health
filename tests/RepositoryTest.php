@@ -9,6 +9,8 @@ class RepositoryTest extends AbstractTestCase
 {
     public function test_returns_correct_data()
     {
+        $this->travelTo(now());
+
         $result = (new Repository())();
 
         AssertableJson::fromArray($result)
@@ -22,6 +24,7 @@ class RepositoryTest extends AbstractTestCase
                     'slug' => 'test-check',
                     'group' => 'other',
                     'description' => 'A test check',
+                    'runtimeInMilliseconds' => 100,
                     'result' => [
                         'value' => null,
                         'message' => 'Looking good.',

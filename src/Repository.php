@@ -58,12 +58,15 @@ class Repository
             ->replace('-', ' ')
             ->title();
 
+        $start = now();
+
         return [
             'name' => (string) $name,
             'slug' => $check->slug ?? (string) $name->slug(),
             'group' => $check->group ?? 'other',
             'description' => $check->description,
             'result' => $check->run()->toArray(),
+            'runtimeInMilliseconds' => $start->diffInMilliseconds(),
         ];
     }
 }
