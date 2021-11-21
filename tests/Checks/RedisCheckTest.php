@@ -5,6 +5,7 @@ namespace Butler\Tests\Health;
 use Butler\Health\Checks\Redis;
 use Butler\Health\Result;
 use Butler\Health\Tests\AbstractTestCase;
+use Illuminate\Support\Facades\Redis as RedisClient;
 
 class RedisCheckTest extends AbstractTestCase
 {
@@ -33,6 +34,23 @@ class RedisCheckTest extends AbstractTestCase
 
         $this->assertEquals('Redis host undefined.', $result->message);
         $this->assertEquals(Result::UNKNOWN, $result->state);
+        $this->assertNull($result->value());
+    }
+
+    public function test_ok()
+    {
+        if (! extension_loaded('redis')) {
+            $this->markTestSkipped();
+        }
+
+        config(['database.redis.default.host' => 'localhost']);
+
+        RedisClient::shouldReceive('ping')->once()->andReturnTrue();
+
+        $result = (new Redis())->run();
+
+        $this->assertEquals('Connected to redis on localhost.', $result->message);
+        $this->assertEquals(Result::OK, $result->state);
         $this->assertNull($result->value());
     }
 }

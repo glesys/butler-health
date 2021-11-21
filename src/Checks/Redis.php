@@ -5,7 +5,6 @@ namespace Butler\Health\Checks;
 use Butler\Health\Check;
 use Butler\Health\Result;
 use Illuminate\Support\Facades\Redis as RedisClient;
-use Illuminate\Support\Str;
 
 class Redis extends Check
 {
@@ -23,12 +22,7 @@ class Redis extends Check
         }
 
         try {
-            RedisClient::set(
-                $key = 'butler-health-check',
-                $string = Str::random()
-            );
-
-            if (RedisClient::get($key) === $string) {
+            if (RedisClient::ping()) {
                 return Result::ok("Connected to redis on {$host}.");
             }
         } catch (\Exception) {
