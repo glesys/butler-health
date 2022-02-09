@@ -6,7 +6,6 @@ use Butler\Health\Check;
 use Closure;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Str;
 
 class Repository
 {
@@ -53,7 +52,7 @@ class Repository
 
     private function checkToArray(Check $check): array
     {
-        $name = Str::of($check->name ?? class_basename($check))
+        $name = str($check->name ?? class_basename($check))
             ->kebab()
             ->replace('-', ' ')
             ->title();
