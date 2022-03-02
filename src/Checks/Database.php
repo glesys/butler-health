@@ -25,7 +25,14 @@ class Database extends Check
             ++$checkedDatabases;
 
             try {
-                if (DB::connection($connection)->getPdo()) {
+                /** @var \Illuminate\Database\Connection */
+                $connection = DB::connection($connection);
+
+                if (is_null($connection->getPdo())) {
+                    $connection->reconnect();
+                }
+
+                if ($connection->getPdo()) {
                     ++$connectedDatabases;
                 }
             } catch (\Exception) {
