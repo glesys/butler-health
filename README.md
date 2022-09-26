@@ -106,7 +106,7 @@ Repository::customApplicationData(fn () => [
 
 ```shell
 vendor/bin/phpunit
-vendor/bin/phpcs
+vendor/bin/pint --test
 ```
 
 ## How To Contribute
