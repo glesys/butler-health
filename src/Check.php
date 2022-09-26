@@ -2,8 +2,6 @@
 
 namespace Butler\Health;
 
-use Butler\Health\Result;
-
 abstract class Check
 {
     public string $name;

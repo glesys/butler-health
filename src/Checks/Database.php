@@ -22,7 +22,7 @@ class Database extends Check
         }
 
         foreach ($connectionKeys->all() as $connection) {
-            ++$checkedDatabases;
+            $checkedDatabases++;
 
             try {
                 /** @var \Illuminate\Database\Connection */
@@ -33,7 +33,7 @@ class Database extends Check
                 }
 
                 if ($connection->getPdo()) {
-                    ++$connectedDatabases;
+                    $connectedDatabases++;
                 }
             } catch (\Exception) {
                 //
