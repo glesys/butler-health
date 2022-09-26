@@ -27,8 +27,8 @@ class DatabaseCheckTest extends AbstractTestCase
                 'testing' => [
                     'driver' => 'sqlite',
                     'database' => ':memory:',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $result = (new Database())->run();
@@ -50,7 +50,7 @@ class DatabaseCheckTest extends AbstractTestCase
                     'driver' => 'sqlite',
                     'database' => ':memory:',
                 ],
-            ]
+            ],
         ]);
 
         $result = (new Database())->run();
@@ -67,8 +67,8 @@ class DatabaseCheckTest extends AbstractTestCase
                 'testing' => [
                     'driver' => 'sqlite',
                     'database' => ':memory:',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         DB::connection('testing')->disconnect();
@@ -99,8 +99,8 @@ class DatabaseCheckTest extends AbstractTestCase
                 'testing' => [
                     'driver' => 'sqlite',
                     'database' => ':memory:',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $result = (new Database())->run();

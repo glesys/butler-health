@@ -2,7 +2,6 @@
 
 namespace Butler\Health;
 
-use Butler\Health\Check;
 use Closure;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Application;

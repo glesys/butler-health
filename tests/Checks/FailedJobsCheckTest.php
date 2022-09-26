@@ -4,7 +4,6 @@ namespace Butler\Health\Tests;
 
 use Butler\Health\Checks\FailedJobs;
 use Butler\Health\Result;
-use Butler\Health\Tests\AbstractTestCase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 

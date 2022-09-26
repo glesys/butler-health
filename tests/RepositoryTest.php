@@ -31,7 +31,7 @@ class RepositoryTest extends AbstractTestCase
                         'state' => 'ok',
                         'order' => 1,
                     ],
-                ]
+                ],
             ]);
     }
 
