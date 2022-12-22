@@ -21,6 +21,10 @@ abstract class AbstractTestCase extends AbstractPackageTestCase
             'checks' => [
                 TestCheck::class,
             ],
+            'heartbeat' => [
+                'url' => 'http://localhost',
+                'token' => 'secret',
+            ],
         ]);
     }
 }

@@ -102,6 +102,41 @@ Repository::customApplicationData(fn () => [
 }
 ```
 
+## Heartbeats
+
+Configure `butler.health.heartbeat.url` and `butler.health.heartbeat.token` to enable.
+
+```php
+heartbeat('foo bar'); // POST http://heartbeat.localhost/foo-bar/1
+
+heartbeat('foo baz', 5); // POST http://heartbeat.localhost/foo-baz/5
+```
+
+### Fake
+
+Instead of faking the laravel [Http client](https://laravel.com/docs/master/http-client) in your tests you can fake heartbeats, see example below.
+
+```php
+public function test_something()
+{
+    Heartbeat::fake();
+
+    // Assert that nothing was sent...
+    Heartbeat::nothingSent();
+
+    // Assert a heartbeat was not sent...
+    Heartbeat::assertNotSent('foobar');
+
+    heartbeat('foobar');
+
+    // Assert 1 heartbeat was sent...
+    Heartbeat::assertSentCount(1);
+
+    // Assert a heartbeat was sent...
+    Heartbeat::assertSent('foobar');
+}
+```
+
 ## Testing
 
 ```shell
