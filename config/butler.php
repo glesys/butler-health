@@ -8,6 +8,11 @@ return [
 
         'checks' => [],
 
+        'heartbeat' => [
+            'url' => env('BUTLER_HEALTH_HEARTBEAT_URL'),
+            'token' => env('BUTLER_HEALTH_HEARTBEAT_TOKEN'),
+        ],
+
     ],
 
 ];
