@@ -2,15 +2,15 @@
     "autoload": {
         "psr-4": {
             "Butler\\Health\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Butler\\Health\\Tests\\": "tests/"
         },
         "files": [
             "src/helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Butler\\Health\\Tests\\": "tests/"
+        }
     },
     "config": {
         "sort-packages": true
