@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.2.2] - 2022-12-27
 ### Added
 - Laravel pint.
+- Heartbeats.
 
 ## [0.2.1] - 2022-03-02
 ### Added
