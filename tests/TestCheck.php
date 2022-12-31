@@ -12,7 +12,7 @@ class TestCheck extends Check
 
     public function run(): Result
     {
-        Carbon::setTestNow(Carbon::now()->addMilliseconds(100));
+        Carbon::setTestNow(now()->addMilliseconds(100));
 
         return Result::ok('Looking good.');
     }

@@ -2,42 +2,25 @@
 
 namespace Butler\Health;
 
-use Closure;
-use Composer\InstalledVersions;
-use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Artisan;
 
 class Repository
 {
-    protected static $customApplicationData;
-
     public function __invoke()
     {
         return [
-            'application' => $this->applicationData(),
+            'about' => $this->about(),
             'checks' => $this->checks(),
         ];
     }
 
-    public static function customApplicationData(Closure $callback): void
+    private function about(): array
     {
-        static::$customApplicationData = $callback;
-    }
+        Artisan::call('about --json');
 
-    private function applicationData(): array
-    {
-        $data = [
-            'name' => config('app.name'),
-            'timezone' => config('app.timezone'),
-            'php' => PHP_VERSION,
-            'laravel' => Application::VERSION,
-            'butlerHealth' => ltrim(InstalledVersions::getPrettyVersion('glesys/butler-health'), 'v'),
-        ];
+        $output = Artisan::output();
 
-        if (static::$customApplicationData) {
-            return array_merge($data, (static::$customApplicationData)());
-        }
-
-        return $data;
+        return json_decode(trim($output), true);
     }
 
     private function checks(): array

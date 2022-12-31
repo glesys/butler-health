@@ -18,14 +18,14 @@ The default route is `/health` and is configured at `butler.health.route`.
 The endpoint will return data in JSON.
 
 ```json
-// example response
 {
-    "application": {
-        "name": "application name",
-        "timezone": "Europe/Stockholm",
-        "php": "8.0.10",
-        "laravel": "8.60.0",
-        "butlerHealth": "0.1"
+    "about": {
+        "environment": {},
+        "cache": {},
+        "drivers": {},
+        "butler_health": {
+            "version": "0.1"
+        },
     },
     "checks": [
         {
@@ -76,27 +76,25 @@ return [
 
 Extend `Butler\Health\Check` and add it to `butler.health.checks`, done.
 
-## Custom application data
+## Custom about information
 
-If you want custom "application" data in the response you can register a callback like in the example below.
+You can push additional "about" information via [laravels `AboutCommand`](https://laravel.com/docs/9.x/packages#about-artisan-command) class.
 
 ```php
-Repository::customApplicationData(fn () => [
-    'name' => 'custom name',
-    'operatingSystem' => php_uname('s'),'v'),
+AboutCommand::add('Environment', fn () => [
+    'Operating System' => php_uname('s'),
 ]);
 ```
 
 ```json
-// example response with custom application data
 {
-    "application": {
-        "name": "custom name",
-        "timezone": "Europe/Stockholm",
-        "php": "8.0.10",
-        "laravel": "8.60.0",
-        "butlerHealth": "0.1",
-        "operatingSystem": "Linux"
+    "about": {
+        "environment": {
+            "operating_system": "Linux"
+        },
+        "cache": {},
+        "drivers": {},
+        "butler_health": {},
     },
     "checks": []
 }

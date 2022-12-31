@@ -82,7 +82,7 @@ class DatabaseCheckTest extends AbstractTestCase
 
     public function test_critical_when_one_database_connection_fails()
     {
-        config(['database.connections' => ['foobar']]);
+        config(['database.connections' => ['foobar' => []]]);
 
         $result = (new Database())->run();
 
@@ -95,7 +95,7 @@ class DatabaseCheckTest extends AbstractTestCase
     {
         config([
             'database.connections' => [
-                'foobar',
+                'foobar' => [],
                 'testing' => [
                     'driver' => 'sqlite',
                     'database' => ':memory:',
