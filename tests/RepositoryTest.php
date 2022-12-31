@@ -9,15 +9,15 @@ class RepositoryTest extends AbstractTestCase
 {
     public function test_returns_correct_data()
     {
-        $this->travelTo(now());
-
-        $result = (new Repository())();
+        $result = $this->travelTo(now(), function () {
+            return (new Repository())();
+        });
 
         AssertableJson::fromArray($result)
-            ->has('application', fn (AssertableJson $json) => $json
-                ->where('name', config('app.name'))
-                ->where('timezone', config('app.timezone'))
-                ->hasAll('php', 'laravel', 'butlerHealth'))
+            ->has('about', fn (AssertableJson $json) => $json
+                ->where('environment.timezone', config('app.timezone'))
+                ->has('butler_health.version')
+                ->etc())
             ->where('checks', [
                 [
                     'name' => 'Test Check',
@@ -33,20 +33,5 @@ class RepositoryTest extends AbstractTestCase
                     ],
                 ],
             ]);
-    }
-
-    public function test_customApplicationData()
-    {
-        Repository::customApplicationData(fn () => [
-            'name' => 'custom name',
-            'foo' => 'bar',
-        ]);
-
-        $result = (new Repository())();
-
-        AssertableJson::fromArray($result['application'])
-            ->where('name', 'custom name')
-            ->where('foo', 'bar')
-            ->hasAll('timezone', 'php', 'laravel', 'butlerHealth');
     }
 }
