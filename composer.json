@@ -26,17 +26,17 @@
     "license": "MIT",
     "name": "glesys/butler-health",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
-        "illuminate/contracts": "^9.0",
-        "illuminate/database": "^9.0",
-        "illuminate/routing": "^9.0",
-        "illuminate/support": "^9.0"
+        "illuminate/contracts": "^10.0",
+        "illuminate/database": "^10.0",
+        "illuminate/routing": "^10.0",
+        "illuminate/support": "^10.0"
     },
     "require-dev": {
-        "graham-campbell/testbench": "^5.7",
+        "graham-campbell/testbench": "^6.0",
         "laravel/pint": "^1.2",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^10.0"
     },
     "type": "library"
 }
