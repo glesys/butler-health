@@ -2,28 +2,62 @@
 
 namespace Butler\Health;
 
-use Illuminate\Support\Facades\Artisan;
+use Composer\InstalledVersions;
+use Illuminate\Support\Composer;
 
 class Repository
 {
+    protected static array $customAboutResolvers = [];
+
     public function __invoke()
     {
         return [
-            'about' => $this->about(),
-            'checks' => $this->checks(),
+            'about' => $this->gatherAbout(),
+            'checks' => $this->gatherChecks(),
         ];
     }
 
-    private function about(): array
+    private function gatherAbout(): array
     {
-        Artisan::call('about --json');
+        $laravel = app();
 
-        $output = Artisan::output();
+        $data = [
+            'environment' => [
+                'application_name' => config('app.name'),
+                'laravel_version' => $laravel->version(),
+                'php_version' => phpversion(),
+                'composer_version' => $laravel->make(Composer::class)->getVersion(),
+                'environment' => $laravel->environment(),
+                'debug_mode' => config('app.debug') ? true : false,
+                'url' => str(config('app.url'))->replace(['http://', 'https://'], '')->toString(),
+                'timezone' => config('app.timezone'),
+            ],
+            'cache' => [
+                'config' => $laravel->configurationIsCached(),
+                'events' => $laravel->eventsAreCached(),
+                'routes' => $laravel->routesAreCached(),
+            ],
+            'drivers' => [
+                'broadcasting' => config('broadcasting.default'),
+                'cache' => config('cache.default'),
+                'database' => config('database.default'),
+                'logs' => config('logging.default'),
+                'mail' => config('mail.default'),
+                'octane' => config('octane.server'),
+                'queue' => config('queue.default'),
+                'session' => config('session.driver'),
+            ],
+            'butler_health' => [
+                'version' => ltrim(InstalledVersions::getPrettyVersion('glesys/butler-health'), 'v'),
+            ],
+        ];
 
-        return json_decode(trim($output), true);
+        $data = array_merge_recursive($data, ...collect(static::$customAboutResolvers)->map->__invoke());
+
+        return $data;
     }
 
-    private function checks(): array
+    private function gatherChecks(): array
     {
         return collect(config('butler.health.checks', []))
             ->map(fn ($class) => $this->checkToArray(app($class)))
@@ -49,5 +83,10 @@ class Repository
             'result' => $check->run()->toArray(),
             'runtimeInMilliseconds' => $start->diffInMilliseconds(),
         ];
+    }
+
+    public static function add(string $section, mixed $data): void
+    {
+        static::$customAboutResolvers[] = fn () => [$section => value($data)];
     }
 }

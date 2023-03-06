@@ -78,19 +78,20 @@ Extend `Butler\Health\Check` and add it to `butler.health.checks`, done.
 
 ## Custom about information
 
-You can push additional "about" information via [laravels `AboutCommand`](https://laravel.com/docs/9.x/packages#about-artisan-command) class.
+You can push additional "about" information.
 
 ```php
-AboutCommand::add('Environment', fn () => [
-    'Operating System' => php_uname('s'),
-]);
+Butler\Health\Repository::add('environment', ['operating_system' => php_uname('s')]);
+
+Butler\Health\Repository::add('environment', fn () => ['time' => time()]);
 ```
 
 ```json
 {
     "about": {
         "environment": {
-            "operating_system": "Linux"
+            "operating_system": "Linux",
+            "time": 1678100209
         },
         "cache": {},
         "drivers": {},
