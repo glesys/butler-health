@@ -10,7 +10,13 @@ class RepositoryTest extends AbstractTestCase
     public function test_returns_correct_data()
     {
         Repository::add('environment', ['foo' => 'bar']);
-        Repository::add('environment', fn () => ['foz' => 'baz']);
+        Repository::add('environment', ['foo' => 'bar']);
+
+        Repository::add('custom', fn () => ['foo' => 'bar']);
+        Repository::add('custom', fn () => [
+            'foz' => 'bar',
+            'baz' => 'foo',
+        ]);
 
         $result = $this->travelTo(now(), function () {
             return (new Repository())();
@@ -30,7 +36,6 @@ class RepositoryTest extends AbstractTestCase
                     )
                     ->where('timezone', config('app.timezone'))
                     ->where('foo', 'bar')
-                    ->where('foz', 'baz')
                 )
                 ->has('cache', fn (AssertableJson $json) => $json
                     ->hasAll('config', 'events', 'routes')
@@ -48,6 +53,11 @@ class RepositoryTest extends AbstractTestCase
                     )
                 )
                 ->has('butler_health.version')
+                ->where('custom', [
+                    'foo' => 'bar',
+                    'foz' => 'bar',
+                    'baz' => 'foo',
+                ])
             )
             ->where('checks', [
                 [

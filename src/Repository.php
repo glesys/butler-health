@@ -2,8 +2,10 @@
 
 namespace Butler\Health;
 
+use Closure;
 use Composer\InstalledVersions;
 use Illuminate\Support\Composer;
+use ReflectionFunction;
 
 class Repository
 {
@@ -52,7 +54,10 @@ class Repository
             ],
         ];
 
-        $data = array_merge_recursive($data, ...collect(static::$customAboutResolvers)->map->__invoke());
+        $data = array_merge_recursive(
+            $data,
+            ...collect(static::$customAboutResolvers)->values()->map->__invoke()
+        );
 
         return $data;
     }
@@ -87,6 +92,10 @@ class Repository
 
     public static function add(string $section, mixed $data): void
     {
-        static::$customAboutResolvers[] = fn () => [$section => value($data)];
+        $id = $data instanceof Closure
+            ? md5(new ReflectionFunction($data))
+            : md5(serialize($data));
+
+        static::$customAboutResolvers[$section . $id] = fn () => [$section => value($data)];
     }
 }
