@@ -98,4 +98,9 @@ class Repository
 
         static::$customAboutResolvers[$section . $id] = fn () => [$section => value($data)];
     }
+
+    public static function clear(): void
+    {
+        static::$customAboutResolvers = [];
+    }
 }

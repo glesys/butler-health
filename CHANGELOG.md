@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Uniqueness to custom "about" information.
+- Method for clearing custom "about" information.
 
 ## [0.5.0] - 2023-03-07
 ### Changed

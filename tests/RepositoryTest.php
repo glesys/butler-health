@@ -7,20 +7,9 @@ use Illuminate\Testing\Fluent\AssertableJson;
 
 class RepositoryTest extends AbstractTestCase
 {
-    public function test_returns_correct_data()
+    public function test_invoke_returns_correct_default_information()
     {
-        Repository::add('environment', ['foo' => 'bar']);
-        Repository::add('environment', ['foo' => 'bar']);
-
-        Repository::add('custom', fn () => ['foo' => 'bar']);
-        Repository::add('custom', fn () => [
-            'foz' => 'bar',
-            'baz' => 'foo',
-        ]);
-
-        $result = $this->travelTo(now(), function () {
-            return (new Repository())();
-        });
+        $result = $this->travelTo(now(), fn () => (new Repository())());
 
         AssertableJson::fromArray($result)
             ->has('about', fn (AssertableJson $json) => $json
@@ -35,7 +24,6 @@ class RepositoryTest extends AbstractTestCase
                         'url',
                     )
                     ->where('timezone', config('app.timezone'))
-                    ->where('foo', 'bar')
                 )
                 ->has('cache', fn (AssertableJson $json) => $json
                     ->hasAll('config', 'events', 'routes')
@@ -53,11 +41,6 @@ class RepositoryTest extends AbstractTestCase
                     )
                 )
                 ->has('butler_health.version')
-                ->where('custom', [
-                    'foo' => 'bar',
-                    'foz' => 'bar',
-                    'baz' => 'foo',
-                ])
             )
             ->where('checks', [
                 [
@@ -74,5 +57,38 @@ class RepositoryTest extends AbstractTestCase
                     ],
                 ],
             ]);
+    }
+
+    public function test_add()
+    {
+        $repository = new Repository();
+
+        $repository::add('environment', ['foo' => 'bar']);
+        $repository::add('environment', ['foo' => 'bar']);
+
+        $repository::add('custom', fn () => ['foo' => 'bar']);
+        $repository::add('custom', fn () => [
+            'foz' => 'bar',
+            'baz' => 'foo',
+        ]);
+
+        AssertableJson::fromArray($repository())
+            ->where('about.environment.foo', 'bar')
+            ->where('about.custom', [
+                'foo' => 'bar',
+                'foz' => 'bar',
+                'baz' => 'foo',
+            ]);
+    }
+
+    public function test_clear()
+    {
+        $repository = new Repository();
+
+        $repository::add('foo', ['bar' => 'baz']);
+
+        $repository::clear();
+
+        AssertableJson::fromArray($repository())->missing('about.foo');
     }
 }
