@@ -41,6 +41,9 @@ class RepositoryTest extends AbstractTestCase
                     )
                 )
                 ->has('butler_health.version')
+                ->has('request', fn (AssertableJson $json) => $json
+                    ->hasAll('ip', 'user_agent')
+                )
             )
             ->where('checks', [
                 [

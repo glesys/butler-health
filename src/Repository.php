@@ -52,6 +52,10 @@ class Repository
             'butler_health' => [
                 'version' => ltrim(InstalledVersions::getPrettyVersion('glesys/butler-health'), 'v'),
             ],
+            'request' => [
+                'ip' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ],
         ];
 
         $data = array_merge_recursive(
