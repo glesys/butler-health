@@ -51,7 +51,7 @@ class RepositoryTest extends AbstractTestCase
                     'slug' => 'test-check',
                     'group' => 'other',
                     'description' => 'A test check',
-                    'runtimeInMilliseconds' => 100,
+                    'runtime_in_milliseconds' => 100,
                     'result' => [
                         'value' => null,
                         'message' => 'Looking good.',

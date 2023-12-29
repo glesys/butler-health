@@ -90,7 +90,7 @@ class Repository
             'group' => $check->group ?? 'other',
             'description' => $check->description,
             'result' => $check->run()->toArray(),
-            'runtimeInMilliseconds' => $start->diffInMilliseconds(),
+            'runtime_in_milliseconds' => $start->diffInMilliseconds(),
         ];
     }
 
