@@ -26,12 +26,12 @@
     "license": "MIT",
     "name": "glesys/butler-health",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "guzzlehttp/guzzle": "^7.2",
-        "illuminate/contracts": "^10.0",
-        "illuminate/database": "^10.0",
-        "illuminate/routing": "^10.0",
-        "illuminate/support": "^10.0"
+        "illuminate/contracts": "^11.0",
+        "illuminate/database": "^11.0",
+        "illuminate/routing": "^11.0",
+        "illuminate/support": "^11.0"
     },
     "require-dev": {
         "graham-campbell/testbench": "^6.0",
