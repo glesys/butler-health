@@ -23,7 +23,7 @@ The endpoint will return data in JSON.
         "environment": {},
         "cache": {},
         "drivers": {},
-        "butler_health": {
+        "butlerHealth": {
             "version": "0.1"
         },
     },
@@ -81,7 +81,7 @@ Extend `Butler\Health\Check` and add it to `butler.health.checks`, done.
 You can push additional "about" information.
 
 ```php
-Butler\Health\Repository::add('environment', ['operating_system' => php_uname('s')]);
+Butler\Health\Repository::add('environment', ['operatingSystem' => php_uname('s')]);
 
 Butler\Health\Repository::add('environment', fn () => ['time' => time()]);
 ```
@@ -90,12 +90,12 @@ Butler\Health\Repository::add('environment', fn () => ['time' => time()]);
 {
     "about": {
         "environment": {
-            "operating_system": "Linux",
+            "operatingSystem": "Linux",
             "time": 1678100209
         },
         "cache": {},
         "drivers": {},
-        "butler_health": {},
+        "butlerHealth": {},
     },
     "checks": []
 }
