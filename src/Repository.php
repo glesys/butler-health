@@ -25,12 +25,12 @@ class Repository
 
         $data = [
             'environment' => [
-                'application_name' => config('app.name'),
-                'laravel_version' => $laravel->version(),
-                'php_version' => phpversion(),
-                'composer_version' => $laravel->make(Composer::class)->getVersion(),
+                'applicationName' => config('app.name'),
+                'laravelVersion' => $laravel->version(),
+                'phpVersion' => phpversion(),
+                'composerVersion' => $laravel->make(Composer::class)->getVersion(),
                 'environment' => $laravel->environment(),
-                'debug_mode' => config('app.debug') ? true : false,
+                'debugMode' => config('app.debug') ? true : false,
                 'url' => str(config('app.url'))->replace(['http://', 'https://'], '')->toString(),
                 'timezone' => config('app.timezone'),
             ],
@@ -49,12 +49,12 @@ class Repository
                 'queue' => config('queue.default'),
                 'session' => config('session.driver'),
             ],
-            'butler_health' => [
+            'butlerHealth' => [
                 'version' => ltrim(InstalledVersions::getPrettyVersion('glesys/butler-health'), 'v'),
             ],
             'request' => [
                 'ip' => request()->ip(),
-                'user_agent' => request()->userAgent(),
+                'userAgent' => request()->userAgent(),
             ],
         ];
 

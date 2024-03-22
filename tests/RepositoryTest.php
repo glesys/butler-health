@@ -15,12 +15,12 @@ class RepositoryTest extends AbstractTestCase
             ->has('about', fn (AssertableJson $json) => $json
                 ->has('environment', fn (AssertableJson $json) => $json
                     ->hasAll(
-                        'application_name',
-                        'laravel_version',
-                        'php_version',
-                        'composer_version',
+                        'applicationName',
+                        'laravelVersion',
+                        'phpVersion',
+                        'composerVersion',
                         'environment',
-                        'debug_mode',
+                        'debugMode',
                         'url',
                     )
                     ->where('timezone', config('app.timezone'))
@@ -40,9 +40,9 @@ class RepositoryTest extends AbstractTestCase
                         'session',
                     )
                 )
-                ->has('butler_health.version')
+                ->has('butlerHealth.version')
                 ->has('request', fn (AssertableJson $json) => $json
-                    ->hasAll('ip', 'user_agent')
+                    ->hasAll('ip', 'userAgent')
                 )
             )
             ->where('checks', [
