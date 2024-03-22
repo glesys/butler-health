@@ -3,7 +3,7 @@
 namespace Butler\Health\Tests;
 
 use Butler\Health\Checks\FailedJobs;
-use Butler\Health\Result;
+use Butler\Health\Enums\ResultState;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -23,7 +23,7 @@ class FailedJobsCheckTest extends AbstractTestCase
         $result = (new FailedJobs())->run();
 
         $this->assertEquals('No failed jobs.', $result->message);
-        $this->assertEquals(Result::OK, $result->state);
+        $this->assertEquals(ResultState::OK, $result->state);
         $this->assertEquals(0, $result->value());
     }
 
@@ -37,7 +37,7 @@ class FailedJobsCheckTest extends AbstractTestCase
         $result = (new FailedJobs())->run();
 
         $this->assertEquals('2 failed jobs.', $result->message);
-        $this->assertEquals(Result::CRITICAL, $result->state);
+        $this->assertEquals(ResultState::CRITICAL, $result->state);
         $this->assertEquals(2, $result->value());
     }
 
@@ -48,7 +48,7 @@ class FailedJobsCheckTest extends AbstractTestCase
         $result = (new FailedJobs())->run();
 
         $this->assertEquals('One failed job.', $result->message);
-        $this->assertEquals(Result::CRITICAL, $result->state);
+        $this->assertEquals(ResultState::CRITICAL, $result->state);
         $this->assertEquals(1, $result->value());
     }
 
@@ -59,7 +59,7 @@ class FailedJobsCheckTest extends AbstractTestCase
         $result = (new FailedJobs())->run();
 
         $this->assertEquals('Table foobar not found.', $result->message);
-        $this->assertEquals(Result::UNKNOWN, $result->state);
+        $this->assertEquals(ResultState::UNKNOWN, $result->state);
         $this->assertNull($result->value());
     }
 }

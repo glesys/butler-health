@@ -3,7 +3,7 @@
 namespace Butler\Tests\Health;
 
 use Butler\Health\Checks\Redis;
-use Butler\Health\Result;
+use Butler\Health\Enums\ResultState;
 use Butler\Health\Tests\AbstractTestCase;
 use Illuminate\Support\Facades\Redis as RedisClient;
 
@@ -18,7 +18,7 @@ class RedisCheckTest extends AbstractTestCase
         $result = (new Redis())->run();
 
         $this->assertEquals('Redis extension not enabled.', $result->message);
-        $this->assertEquals(Result::UNKNOWN, $result->state);
+        $this->assertEquals(ResultState::UNKNOWN, $result->state);
         $this->assertNull($result->value());
     }
 
@@ -33,7 +33,7 @@ class RedisCheckTest extends AbstractTestCase
         $result = (new Redis())->run();
 
         $this->assertEquals('Redis host undefined.', $result->message);
-        $this->assertEquals(Result::UNKNOWN, $result->state);
+        $this->assertEquals(ResultState::UNKNOWN, $result->state);
         $this->assertNull($result->value());
     }
 
@@ -50,7 +50,7 @@ class RedisCheckTest extends AbstractTestCase
         $result = (new Redis())->run();
 
         $this->assertEquals('Connected to redis on localhost.', $result->message);
-        $this->assertEquals(Result::OK, $result->state);
+        $this->assertEquals(ResultState::OK, $result->state);
         $this->assertNull($result->value());
     }
 }
