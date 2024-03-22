@@ -2,37 +2,34 @@
 
 namespace Butler\Health;
 
+use Butler\Health\Enums\ResultState;
+
 class Result
 {
-    public const OK = 'ok';
-    public const WARNING = 'warning';
-    public const CRITICAL = 'critical';
-    public const UNKNOWN = 'unknown';
-
     public $value = null;
 
-    private function __construct(public string $message, public string $state)
+    private function __construct(public string $message, public ResultState $state)
     {
     }
 
     public static function ok(string $message): static
     {
-        return new static($message, static::OK);
+        return new static($message, ResultState::OK);
     }
 
     public static function warning(string $message): static
     {
-        return new static($message, static::WARNING);
+        return new static($message, ResultState::WARNING);
     }
 
     public static function critical(string $message): static
     {
-        return new static($message, static::CRITICAL);
+        return new static($message, ResultState::CRITICAL);
     }
 
     public static function unknown(string $message): static
     {
-        return new static($message, static::UNKNOWN);
+        return new static($message, ResultState::UNKNOWN);
     }
 
     public function value()
@@ -44,24 +41,13 @@ class Result
         return $this->value;
     }
 
-    public function order(): int
-    {
-        return match ($this->state) {
-            static::CRITICAL => 3,
-            static::WARNING => 2,
-            static::OK => 1,
-            static::UNKNOWN => 0,
-            default => 0,
-        };
-    }
-
     public function toArray(): array
     {
         return [
             'value' => $this->value,
             'message' => $this->message,
-            'state' => $this->state,
-            'order' => $this->order(),
+            'state' => $this->state->value,
+            'order' => $this->state->order(),
         ];
     }
 }
