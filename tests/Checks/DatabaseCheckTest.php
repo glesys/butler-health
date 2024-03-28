@@ -3,7 +3,7 @@
 namespace Butler\Tests\Health;
 
 use Butler\Health\Checks\Database;
-use Butler\Health\Result;
+use Butler\Health\Enums\ResultState;
 use Butler\Health\Tests\AbstractTestCase;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +16,7 @@ class DatabaseCheckTest extends AbstractTestCase
         $result = (new Database())->run();
 
         $this->assertEquals('No database connections found.', $result->message);
-        $this->assertEquals(Result::UNKNOWN, $result->state);
+        $this->assertEquals(ResultState::UNKNOWN, $result->state);
         $this->assertNull($result->value());
     }
 
@@ -34,7 +34,7 @@ class DatabaseCheckTest extends AbstractTestCase
         $result = (new Database())->run();
 
         $this->assertEquals('Connected to the database.', $result->message);
-        $this->assertEquals(Result::OK, $result->state);
+        $this->assertEquals(ResultState::OK, $result->state);
         $this->assertEquals(1, $result->value());
     }
 
@@ -56,7 +56,7 @@ class DatabaseCheckTest extends AbstractTestCase
         $result = (new Database())->run();
 
         $this->assertEquals('Connected to all 2 databases.', $result->message);
-        $this->assertEquals(Result::OK, $result->state);
+        $this->assertEquals(ResultState::OK, $result->state);
         $this->assertEquals(1, $result->value());
     }
 
@@ -76,7 +76,7 @@ class DatabaseCheckTest extends AbstractTestCase
         $result = (new Database())->run();
 
         $this->assertEquals('Connected to the database.', $result->message);
-        $this->assertEquals(Result::OK, $result->state);
+        $this->assertEquals(ResultState::OK, $result->state);
         $this->assertEquals(1, $result->value());
     }
 
@@ -87,7 +87,7 @@ class DatabaseCheckTest extends AbstractTestCase
         $result = (new Database())->run();
 
         $this->assertEquals('Not connected to the database.', $result->message);
-        $this->assertEquals(Result::CRITICAL, $result->state);
+        $this->assertEquals(ResultState::CRITICAL, $result->state);
         $this->assertEquals(0, $result->value());
     }
 
@@ -106,7 +106,7 @@ class DatabaseCheckTest extends AbstractTestCase
         $result = (new Database())->run();
 
         $this->assertEquals('Connected to 1 of 2 databases.', $result->message);
-        $this->assertEquals(Result::CRITICAL, $result->state);
+        $this->assertEquals(ResultState::CRITICAL, $result->state);
         $this->assertEquals(0.5, $result->value());
     }
 }
