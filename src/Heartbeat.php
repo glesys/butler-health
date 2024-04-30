@@ -33,6 +33,7 @@ class Heartbeat
         } else {
             Http::withToken(config('butler.health.heartbeat.token'))
                 ->timeout(5)
+                ->acceptJson()
                 ->post($url)
                 ->onError(function ($response) {
                     report($response->toException());

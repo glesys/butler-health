@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **BREAKING**: Require Laravel 11.
 - **BREAKING**: Camel case keys in response.
+- Accept json when posting heartbeat.
 
 ### Added
 - **BREAKING**: Enum `ResultState`.
