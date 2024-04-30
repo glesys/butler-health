@@ -20,6 +20,8 @@ class HeartbeatTest extends AbstractTestCase
 
         Http::assertSent(fn (Request $request)
             => $request->method() === 'POST'
+            && $request->isJson()
+            && $request->hasHeader('Accept', 'application/json')
             && $request->hasHeader('Authorization', 'Bearer secret')
             && $request->url() === 'http://localhost/foobar/2');
     }
