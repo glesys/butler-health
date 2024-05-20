@@ -31,13 +31,16 @@ class Heartbeat
         if ($this->recording) {
             $this->recorded[] = $url;
         } else {
-            Http::withToken(config('butler.health.heartbeat.token'))
+            $config = config('butler.health.heartbeat');
+
+            Http::withToken($config['token'] ?? null)
                 ->timeout(5)
                 ->acceptJson()
                 ->post($url)
-                ->onError(function ($response) {
-                    report($response->toException());
-                });
+                ->onError(fn ($response) => report_if(
+                    $config['report'] ?? false,
+                    $response->toException(),
+                ));
         }
     }
 
