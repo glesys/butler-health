@@ -26,8 +26,19 @@ class HeartbeatTest extends AbstractTestCase
             && $request->url() === 'http://localhost/foobar/2');
     }
 
-    public function test_send_sad_path_reports_exception()
+    public function test_send_sad_path_do_not_report_exception()
     {
+        Http::fakeSequence()->pushStatus(500);
+
+        Heartbeat::send('foobar', 2);
+
+        Http::assertSentCount(1);
+    }
+
+    public function test_send_sad_path_reports_exception_when_configured()
+    {
+        config(['butler.health.heartbeat.report' => true]);
+
         $this->expectException(RequestException::class);
         $this->expectExceptionMessage('HTTP request returned status code 500');
 
