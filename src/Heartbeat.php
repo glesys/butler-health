@@ -34,7 +34,7 @@ class Heartbeat
             $config = config('butler.health.heartbeat');
 
             Http::withToken($config['token'] ?? null)
-                ->timeout(5)
+                ->timeout($config['timeout'] ?? 5)
                 ->acceptJson()
                 ->post($url)
                 ->onError(fn ($response) => report_if(

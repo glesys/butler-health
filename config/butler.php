@@ -12,6 +12,7 @@ return [
             'url' => env('BUTLER_HEALTH_HEARTBEAT_URL'),
             'token' => env('BUTLER_HEALTH_HEARTBEAT_TOKEN'),
             'report' => env('BUTLER_HEALTH_HEARTBEAT_REPORT'),
+            'timeout' => env('BUTLER_HEALTH_HEARTBEAT_TIMEOUT'),
         ],
 
     ],
