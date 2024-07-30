@@ -8,6 +8,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Framework\ExpectationFailedException;
 
 class HeartbeatTest extends AbstractTestCase
@@ -119,5 +120,16 @@ class HeartbeatTest extends AbstractTestCase
 
         $this->assertInstanceOf(Collection::class, $recorded);
         $this->assertEquals(1, $recorded->count());
+    }
+
+    public function test_log_driver()
+    {
+        config(['butler.health.heartbeat.driver' => 'log']);
+
+        Log::expects('info')->with('heartbeat', ['url' => 'http://localhost/foobar/2']);
+
+        Heartbeat::send('foobar', 2);
+
+        Http::assertNothingSent();
     }
 }
