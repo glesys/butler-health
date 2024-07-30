@@ -4,6 +4,7 @@ namespace Butler\Health;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Traits\Macroable;
 use PHPUnit\Framework\Assert as PHPUnit;
 
@@ -30,14 +31,24 @@ class Heartbeat
 
         if ($this->recording) {
             $this->recorded[] = $url;
-        } else {
-            Http::withToken(config('butler.health.heartbeat.token'))
-                ->timeout(5)
-                ->post($url)
-                ->onError(function ($response) {
-                    report($response->toException());
-                });
+
+            return;
         }
+
+        $config = config('butler.health.heartbeat');
+
+        if ($config['driver'] ?? null === 'log') {
+            Log::info('heartbeat', ['url' => $url]);
+
+            return;
+        }
+
+        Http::withToken(config('butler.health.heartbeat.token'))
+            ->timeout(5)
+            ->post($url)
+            ->onError(function ($response) {
+                report($response->toException());
+            });
     }
 
     public function assertSent(string $slug, int $minutes = 1): void

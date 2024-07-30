@@ -111,6 +111,10 @@ heartbeat('foo bar'); // POST http://heartbeat.localhost/foo-bar/1
 heartbeat('foo baz', 5); // POST http://heartbeat.localhost/foo-baz/5
 ```
 
+### Log driver
+
+To prevent HTTP requests in local environment, set `butler.health.heartbeat.driver` to "log".
+
 ### Fake
 
 Instead of faking the laravel [Http client](https://laravel.com/docs/master/http-client) in your tests you can fake heartbeats, see example below.
