@@ -11,9 +11,7 @@ class Result
 
     public $value = null;
 
-    private function __construct(public string $message, public string $state)
-    {
-    }
+    private function __construct(public string $message, public string $state) {}
 
     public static function ok(string $message): static
     {
