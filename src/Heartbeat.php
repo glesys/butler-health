@@ -37,7 +37,7 @@ class Heartbeat
 
         $config = config('butler.health.heartbeat');
 
-        if ($config['driver'] ?? null === 'log') {
+        if (data_get($config, 'driver') === 'log') {
             Log::info('heartbeat', ['url' => $url]);
 
             return;
