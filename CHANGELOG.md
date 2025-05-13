@@ -8,10 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
-## [0.6.2] - 2025-05-13
+## [0.6.3] - 2025-05-13
 
 ### Changed
 - Support Laravel 12.
+
+
+## [0.6.2] - 2024-07-31
+
+### Fixed
+- Use heartbeat driver correctly
 
 
 ## [0.6.1] - 2024-08-01
