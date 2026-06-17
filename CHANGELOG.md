@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `Check::$webhooks` map (`label => URL`), surfaced per check in the response.
+
 
 ## [0.6.3] - 2025-05-13
 

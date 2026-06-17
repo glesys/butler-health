@@ -51,6 +51,7 @@ class RepositoryTest extends AbstractTestCase
                     'slug' => 'test-check',
                     'group' => 'other',
                     'description' => 'A test check',
+                    'webhooks' => [],
                     'runtimeInMilliseconds' => 100,
                     'result' => [
                         'value' => null,
@@ -60,6 +61,19 @@ class RepositoryTest extends AbstractTestCase
                     ],
                 ],
             ]);
+    }
+
+    public function test_invoke_includes_per_check_webhooks()
+    {
+        config(['butler.health.checks' => [WebhookTestCheck::class]]);
+
+        $result = (new Repository())();
+
+        AssertableJson::fromArray($result)
+            ->where('checks.0.webhooks', [
+                'alerts' => 'https://hooks.example.test/extra',
+            ])
+            ->etc();
     }
 
     public function test_add()

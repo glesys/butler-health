@@ -9,5 +9,7 @@ abstract class Check
     public string $group;
     public string $description;
 
+    public array $webhooks = [];
+
     abstract public function run(): Result;
 }

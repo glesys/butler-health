@@ -89,6 +89,7 @@ class Repository
             'slug' => $check->slug ?? (string) $name->slug(),
             'group' => $check->group ?? 'other',
             'description' => $check->description,
+            'webhooks' => $check->webhooks,
             'result' => $check->run()->toArray(),
             'runtimeInMilliseconds' => (int) $start->diffInMilliseconds(),
         ];
