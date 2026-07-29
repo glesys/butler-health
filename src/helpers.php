@@ -1,8 +1,10 @@
 <?php
 
+use Butler\Health\Facades\Heartbeat;
+
 if (! function_exists('heartbeat')) {
     function heartbeat(string $slug, int $minutes = 1): void
     {
-        Butler\Health\Facades\Heartbeat::send($slug, $minutes);
+        Heartbeat::send($slug, $minutes);
     }
 }

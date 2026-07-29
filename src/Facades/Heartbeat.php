@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void assertNothingSent()
  * @method static void assertSentCount(int $count)
  *
- * @see \Butler\Health\Heartbeat
+ * @see HeartbeatClass
  */
 class Heartbeat extends Facade
 {
