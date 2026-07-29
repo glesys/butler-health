@@ -4,6 +4,7 @@ namespace Butler\Health\Checks;
 
 use Butler\Health\Check;
 use Butler\Health\Result;
+use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
 
 class Database extends Check
@@ -25,7 +26,7 @@ class Database extends Check
             $checkedDatabases++;
 
             try {
-                /** @var \Illuminate\Database\Connection */
+                /** @var Connection */
                 $connection = DB::connection($connection);
 
                 if (is_null($connection->getPdo())) {
